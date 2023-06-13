@@ -19,7 +19,7 @@
         <div class="box" id="box22" onclick="handleClick(this.id)"></div>
     </div>
     <button id="restart" onclick="location.reload()">Restart</button>
-    <h1 id="result"></h1>
+    <h1 id="result">result</h1>
 </body>
 <style>
     *{
@@ -78,6 +78,7 @@
         width: max-content;
         padding: 10px;
         color: rgba(9, 165, 37, 0.906);
+        visibility: hidden;
     }
     @media only screen and (max-width: 600px) {
         body{
@@ -150,6 +151,7 @@
             if(matrix[i][j-1] == matrix[i][j] && matrix[i][j] == matrix[i][j+1] && matrix[i][j]!=null){
                 // console.log(matrix[i][j],"is winner")
                 document.getElementById("result").innerHTML = matrix[i][j] + " is winner"
+                document.getElementById("result").style.visibility = "visible"
                 document.getElementById("box"+i+j).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+i+(j-1)).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+i+(j+1)).style.backgroundColor = "#09EE09"
@@ -158,6 +160,7 @@
             if(matrix[j-1][i] == matrix[j][i] && matrix[j][i] == matrix[j+1][i] && matrix[j][i]!=null){
                 // console.log(matrix[j][i],"is winner")
                 document.getElementById("result").innerHTML = matrix[j][i] + " is winner"
+                document.getElementById("result").style.visibility = "visible"
                 document.getElementById("box"+(j-1)+i).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+j+i).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+(j+1)+i).style.backgroundColor = "#09EE09"
@@ -166,6 +169,7 @@
             if(matrix[j-1][j-1] == matrix[j][j] && matrix[j][j] == matrix[j+1][j+1] && matrix[j][j]!=null){
                 // console.log(matrix[j][j],"is winner")
                 document.getElementById("result").innerHTML = matrix[j][j] + " is winner"
+                document.getElementById("result").style.visibility = "visible"
                 document.getElementById("box"+(j-1)+(j-1)).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+j+j).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+(j+1)+(j+1)).style.backgroundColor = "#09EE09"
@@ -174,6 +178,7 @@
             if(matrix[j+1][j-1] == matrix[j][j] && matrix[j][j] == matrix[j-1][j+1] && matrix[j][j]!=null){
                 // console.log(matrix[j][j],"is winner")
                 document.getElementById("result").innerHTML = matrix[j][j] + " is winner"
+                document.getElementById("result").style.visibility = "visible"
                 document.getElementById("box"+(j+1)+(j-1)).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+j+j).style.backgroundColor = "#09EE09"
                 document.getElementById("box"+(j-1)+(j+1)).style.backgroundColor = "#09EE09"
@@ -185,6 +190,7 @@
     if(draw){
         document.getElementById("heading").innerHTML = "--Draw--"
         document.getElementById("result").innerHTML = "Match is Draw"
+        document.getElementById("result").style.visibility = "visible"
         document.getElementById("restart").innerHTML = "Replay"
         document.getElementById("restart").style.backgroundColor = "rgb(13, 207, 13)"
     }
