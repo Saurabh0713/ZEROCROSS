@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZERO-CROSS GAME</title>
+</head>
+<body>
+    <h2 id="heading">Player X turn:</h2>
+    <div class="main-box">
+        <div class="box" id="box00" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box01" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box02" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box10" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box11" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box12" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box20" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box21" onclick="handleClick(this.id)"></div>
+        <div class="box" id="box22" onclick="handleClick(this.id)"></div>
+    </div>
+    <button id="restart" onclick="location.reload()">Restart</button>
+    <h1 id="result"></h1>
+</body>
+<style>
+    *{
+        box-sizing: border-box;
+    }
+    body{
+        background-color: rgba(181, 219, 241, 0.792);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .main-box{
+        width: 330px;
+        height: 330px;
+        background-color: rgb(25, 183, 241);
+        /* border: 2px solid black; */
+        padding: 10px;
+        margin: auto;
+        margin-bottom: 20px;
+        display: grid;
+        grid-template-columns: auto auto auto;
+        cursor: pointer;
+        box-shadow: 20px 20px 50px grey;
+    }
+    .box{
+        width: 100px;
+        height: 100px;
+        /* border: 1px solid gray; */
+        background-color: rgb(40, 245, 245);
+        margin: 0px;
+        text-align: center;
+        font-size: 80px;
+    }
+    #restart{
+        width: 100px;
+        height: 60px;
+        font-size: 20px;
+        background-color: rgb(25, 134, 144);
+        border-radius: 20px;
+        border: none;
+        color: white;
+    }
+    #restart:active{
+        background-color: rgb(121, 175, 210);
+    }
+    #restart:hover{
+        box-shadow: 5px 5px 50px 2px rgb(73, 93, 100);
+    }
+    #result{
+        width: max-content;
+        padding: 10px;
+        color: rgba(9, 165, 37, 0.906);
+    }
+</style>
+<script>
+    let player1 = "X",player2 = "O",gameStart = false,winnerFound = false
+    let matrix = []
+    for(i=0;i<3;i++){
+        matrix[i]=[]
+        for(j=0;j<3;j++){
+            matrix[i][j] = null
+        }
+    }
+
+    function handleClick(id){
+
+        if(document.getElementById(id).innerHTML!="" || winnerFound==true){
+            return false
+        }
+        
+        let indexI = parseInt(id[3])
+        let indexJ = parseInt(id[4])
+
+        if(!gameStart){
+            document.getElementById(id).innerHTML = player1
+            matrix[indexI][indexJ] = player1
+            gameStart=true
+        }else{
+            document.getElementById(id).innerHTML = player2
+            matrix[indexI][indexJ] = player2
+            gameStart=false
+        }
+
+       let playerName = document.getElementById("heading").innerHTML
+       if(playerName=="Player X turn:"){
+        document.getElementById("heading").innerHTML = "Player O turn:"
+       }else{
+        document.getElementById("heading").innerHTML = "Player X turn:"
+       }
+
+    //    console.log(matrix)
+       let result = checkResult()
+       if(result){
+        document.getElementById("heading").innerHTML = "Winner!!"
+        document.getElementById("restart").innerHTML = "Replay"
+        document.getElementById("restart").style.backgroundColor = "rgb(13, 207, 13)"
+        winnerFound = true
+       }
+    }
+
+    function checkResult(){
+      
+        for(i=0;i<3;i++){
+        for(j=1;j<2;j++){
+            if(matrix[i][j-1] == matrix[i][j] && matrix[i][j] == matrix[i][j+1] && matrix[i][j]!=null){
+                // console.log(matrix[i][j],"is winner")
+                document.getElementById("result").innerHTML = matrix[i][j] + " is winner"
+                document.getElementById("box"+i+j).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+i+(j-1)).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+i+(j+1)).style.backgroundColor = "#09EE09"
+                return true
+            }
+            if(matrix[j-1][i] == matrix[j][i] && matrix[j][i] == matrix[j+1][i] && matrix[j][i]!=null){
+                // console.log(matrix[j][i],"is winner")
+                document.getElementById("result").innerHTML = matrix[j][i] + " is winner"
+                document.getElementById("box"+(j-1)+i).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+j+i).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+(j+1)+i).style.backgroundColor = "#09EE09"
+                return true
+            }
+            if(matrix[j-1][j-1] == matrix[j][j] && matrix[j][j] == matrix[j+1][j+1] && matrix[j][j]!=null){
+                // console.log(matrix[j][j],"is winner")
+                document.getElementById("result").innerHTML = matrix[j][j] + " is winner"
+                document.getElementById("box"+(j-1)+(j-1)).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+j+j).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+(j+1)+(j+1)).style.backgroundColor = "#09EE09"
+                return true
+            }
+            if(matrix[j+1][j-1] == matrix[j][j] && matrix[j][j] == matrix[j-1][j+1] && matrix[j][j]!=null){
+                // console.log(matrix[j][j],"is winner")
+                document.getElementById("result").innerHTML = matrix[j][j] + " is winner"
+                document.getElementById("box"+(j+1)+(j-1)).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+j+j).style.backgroundColor = "#09EE09"
+                document.getElementById("box"+(j-1)+(j+1)).style.backgroundColor = "#09EE09"
+                return true
+            }
+        }
+    }
+    let draw = checkDraw()
+    if(draw){
+        document.getElementById("heading").innerHTML = "--Draw--"
+        document.getElementById("result").innerHTML = "Match is Draw"
+        document.getElementById("restart").innerHTML = "Replay"
+        document.getElementById("restart").style.backgroundColor = "rgb(13, 207, 13)"
+    }
+    }
+
+    function checkDraw(){
+        for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+           if(matrix[i][j] == null){
+            return false
+           }
+        }
+    }
+    return true
+    }
+
+</script>
+</html>
